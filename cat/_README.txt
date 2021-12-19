@@ -1,0 +1,1 @@
+Please copy and paste the cat image here!
