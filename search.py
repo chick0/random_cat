@@ -5,7 +5,7 @@ from random import choice
 
 
 def full() -> list:
-    return [x for x in listdir(join("cat")) if not x.startswith("_")]
+    return [x for x in listdir(join("cat")) if not x.endswith(".txt")]
 
 
 def random() -> str or None:
