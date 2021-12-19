@@ -3,20 +3,22 @@ from io import BytesIO
 from flask import Flask
 from flask import jsonify
 from flask import send_file
-from flask import render_template
 
 from search import random
 from search import search
-
 
 app = Flask(__name__)
 
 
 @app.get("/")
 def index():
-    return render_template(
-        "index.html"
-    )
+    github = "https://github.com/chick0/random_cat"
+    readme = "https://github.com/chick0/random_cat/blob/master/README.md"
+    style = "display:block;margin:auto;text-align:center;text-decoration:none;color:#5f5e5e;"
+    return "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n" + \
+           f"<a href=\"{github}\" style=\"{style}font-size:80px;padding-top:33px\" target=\"_blank\">Github</a><br>" + \
+           f"<a href=\"{readme}\" style=\"{style}font-size:35px\" target=\"_blank\">or README.md</a><br>" + \
+           "<center>🐱 is ❤️ </center>"
 
 
 @app.get("/cat")
