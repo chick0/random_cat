@@ -1,12 +1,11 @@
-from io import BytesIO
-
 from flask import Flask
 from flask import jsonify
 from flask import send_file
 from flask import redirect
 
 from search import random
-from search import search
+from search import get_type
+from search import get_type_and_image
 
 app = Flask(__name__)
 
@@ -24,8 +23,11 @@ def cat():
             "error": "cat is empty"
         }), 404
 
+    mimetype = get_type(cid_or_image=cid)
+
     return jsonify({
-        "id": cid
+        "id": cid,
+        "t": mimetype
     })
 
 
@@ -46,32 +48,21 @@ def meow():
 
 
 def return_cat(cid):
-    img_or_none = search(cid=cid)
+    mimetype, image = get_type_and_image(cid=cid)
 
-    if img_or_none is None:
+    if image is None:
         return jsonify({
             "error": "cat not found"
         }), 404
 
-    if b"PNG" in img_or_none[:6]:
-        return send_file(
-            path_or_file=BytesIO(img_or_none),
-            attachment_filename="cat.png",
-            mimetype="image/png"
-        )
-    elif b"GIF" in img_or_none[:6]:
-        return send_file(
-            path_or_file=BytesIO(img_or_none),
-            attachment_filename="cat.gif",
-            mimetype="image/gif"
-        )
-    elif "ffd8" in img_or_none[:4].hex():
-        return send_file(
-            path_or_file=BytesIO(img_or_none),
-            attachment_filename="cat.jpg",
-            mimetype="image/jpeg"
-        )
+    name = {
+        "image/png": "cat.png",
+        "image/gif": "cat.gif",
+        "image/jpeg": "cat.jpg",
+    }.get(mimetype, "unknown")
 
-    return jsonify({
-        "error": "this file is not image file."
-    }), 500
+    return send_file(
+        path_or_file=image,
+        attachment_filename=name,
+        mimetype=mimetype
+    )
