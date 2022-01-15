@@ -10,13 +10,13 @@
 
 ### Step 2
 1. goto **/cat/{cat_id}**
-2. then server will return **cat image** or **JSON**!
+2. then server will return **Image** or **JSON**(error)!
 
 ## Type B
 
 ### Step 1
 1. goto **/meow**
-2. then server will return **cat image** or **JSON**!
+2. then server will return **Image** or **JSON**(error)!
 
 
 # Response
