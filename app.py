@@ -32,12 +32,14 @@ def cat():
 
 
 @app.get("/cat/<string:cid>")
-def raw_cat(cid: str):
+@app.get("/cat/<string:cid>/<string:fake_path>")
+def raw_cat(cid: str, fake_path: str = "None"):
     return return_cat(cid=cid)
 
 
 @app.get("/meow")
-def meow():
+@app.get("/meow/<string:fake_path>")
+def meow(fake_path: str = "None"):
     cid = random()
     if cid is None:
         return jsonify({
